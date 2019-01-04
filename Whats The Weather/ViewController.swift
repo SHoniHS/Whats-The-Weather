@@ -17,7 +17,7 @@ class ViewController: UIViewController {
     
     @IBAction func getWeather(_ sender: AnyObject) {
         
-        let url = URL(string: "http://www.weather-forecast.com/locations/" + cityTextField.text! + "/forecasts/latest")!
+        let url = URL(string: "http://www.weather-forecast.com/locations/" + cityTextField.text!.replacingOccurrences(of: " ", with: "-") + "/forecasts/latest")!
         
         let request = NSMutableURLRequest(url: url)
         
@@ -40,13 +40,13 @@ class ViewController: UIViewController {
                     
                     if let contentArray = dataString?.components(separatedBy: stringSeparator) {
                         
-                        if contentArray.count > 0 {
+                        if contentArray.count > 1 {
                             
                             stringSeparator = "</span>"
                             
                             let newContentArray = contentArray[3].components(separatedBy: stringSeparator)
                             
-                            if newContentArray.count > 0 {
+                            if newContentArray.count > 1 {
                                 
                                 message = newContentArray[0].replacingOccurrences(of: "&deg;", with: "º")
                                 
@@ -60,7 +60,7 @@ class ViewController: UIViewController {
                 
                 if message == "" {
                     
-                    message = "The weather there could not be found. Please try again until you select London..."
+                    message = "The weather there could not be found. Please try again."
                     
                 }
                 
