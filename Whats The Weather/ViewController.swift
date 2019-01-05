@@ -8,12 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var cityTextField: UITextField!
     
     @IBOutlet var resultLabel: UILabel!
     
+    var notCORRECT = false
+    
+    //Para esconder el teclado
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+        
+    }
     
     @IBAction func getWeather(_ sender: AnyObject) {
         
@@ -62,11 +76,26 @@ class ViewController: UIViewController {
                     
                     message = "The weather there could not be found. Please try again."
                     
+                    self.notCORRECT = true
+                    
                 }
                 
                 DispatchQueue.main.sync(execute: {
                     
                     self.resultLabel.text = message
+                    
+                    if self.notCORRECT == true {
+                        
+                        self.resultLabel.textColor = UIColor.red
+                        
+                        self.notCORRECT = false
+                        
+                    } else {
+                        
+                        self.resultLabel.textColor = UIColor.black
+                    
+                    }
+                    
                     
                 })
                 
